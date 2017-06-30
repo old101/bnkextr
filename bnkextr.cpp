@@ -47,6 +47,7 @@ ENVS
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <libgen.h>
 
 struct Index;
 struct Section;
@@ -80,11 +81,11 @@ int swap32(const int dw)
 std::string zero_padding(unsigned int number)
 {
 	if(number < 10)
-		return "000" + std::to_string(number);
+		return ".000" + std::to_string(number);
 	else if(number < 100)
-		return "00" + std::to_string(number);
+		return ".00" + std::to_string(number);
 	else if(number < 1000)
-		return "0" + std::to_string(number);
+		return ".0" + std::to_string(number);
 	else
 		return std::to_string(number);
 }
@@ -158,7 +159,7 @@ int main(int argc, char* argv[])
 	{
 		for(std::size_t i = 0; i < files.size(); ++i)
 		{
-			std::string filename = zero_padding(i + 1) + ".wem";
+			std::string filename = basename(argv[1]) + zero_padding(i + 1) + ".wem";
 
 			std::fstream wemfile;
 			wemfile.open(filename, std::ios::out | std::ios::binary);
